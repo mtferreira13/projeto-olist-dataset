@@ -1,0 +1,13 @@
+# Ficheiros de configuração do Poetry
+pyproject.toml
+Poetry.lock
+# Ambiente Virtual do Poetry/Venv
+.venv/
+venv/
+
+# Caches do Python
+__pycache__/
+*.pyc
+
+# Ficheiros do Jupyter Notebook
+.ipynb_checkpoints/
