@@ -2,70 +2,60 @@
 
 ![Status](https://img.shields.io/badge/status-em%20andamento-yellow)
 
-## 📖 Descrição
+## 📖 Visão Geral do Projeto
 
-Este projeto consiste em uma análise exploratória e aprofundada do dataset público da **Olist Store**, o maior e-commerce do Brasil. O objetivo é extrair insights valiosos sobre o comportamento de vendas, a performance logística, o perfil dos clientes e a segmentação de mercado, utilizando técnicas de limpeza de dados, engenharia de atributos e análise RFM (Recência, Frequência e Valor Monetário).
+Este projeto apresenta uma análise de ponta a ponta do ecossistema de e-commerce da Olist, a maior loja de departamentos do Brasil. O objetivo foi além de uma análise exploratória, culminando na construção de um **Modelo de Dados Star Schema** otimizado para Business Intelligence.
 
-O trabalho é desenvolvido em um notebook Jupyter (`olist-analise.ipynb`) e segue uma estrutura lógica desde a avaliação inicial de cada arquivo de dados até a construção de um modelo de segmentação de clientes.
+A análise responde a uma pergunta de negócio central: **Quais são os principais fatores que impactam a retenção de clientes e como podemos segmentá-los para ações estratégicas?**
 
----
-
-## 🗃️ Sobre o Dataset
-
-O conjunto de dados utilizado contém informações anonimizadas sobre mais de 100.000 pedidos realizados na Olist entre 2016 e 2018. Ele é composto por múltiplos arquivos CSV, que se relacionam para formar uma visão completa do ecossistema da loja.
-
-Os principais arquivos utilizados nesta análise são:
-- `olist_customers_dataset.csv`
-- `olist_orders_dataset.csv`
-- `olist_order_items_dataset.csv`
-- `olist_products_dataset.csv`
-- `olist_sellers_dataset.csv`
-- `olist_order_payments_dataset.csv`
-- `olist_order_reviews_dataset.csv`
-- `olist_closed_deals_dataset.csv`
-- `product_category_name_translation.csv`
-- `olist_geolocation_dataset.cvs`
-- `olist_marketing_qualified_leads_dataset`
+O pipeline de dados foi desenvolvido inteiramente em Python, e a camada de visualização e exploração de dados será implementada no Power BI.
 
 ---
 
-## 🛠️ Metodologia Aplicada
+## 🗃️ Estrutura do Projeto
 
-A análise foi dividida nas seguintes etapas:
+O trabalho foi dividido em dois notebooks distintos para garantir a modularidade e as boas práticas de um projeto de dados:
 
-1.  **Análise Exploratória Inicial:**
-    - Carregamento individual de cada arquivo CSV.
-    - Verificação da estrutura, tipos de dados (`.info()`), contagem de valores nulos (`.isnull().sum()`) e estatísticas descritivas (`.describe()`) para cada dataset.
-    - Identificação de chaves primárias e estrangeiras para futuras unificações.
+1. `01_ETL_Olist.ipynb`: Responsável pela Extração, Transformação e Carga. Este notebook lida com a leitura dos dados brutos, limpeza, tratamento de valores nulos e anomalias, e a consolidação de todas as fontes em um dataset analítico (df_analise)
 
-2.  **Limpeza e Tratamento de Dados:**
-    - Tratamento de valores nulos em colunas críticas, como `order_approved_at`, `product_category_name` e dimensões de produtos.
-    - Estratégias de imputação aplicadas: substituição por "desconhecido", zero ou mediana, conforme o contexto de cada coluna.
-    - Remoção de anomalias de dados, como pedidos com status "entregue" mas sem datas de aprovação ou envio, para garantir a integridade da análise.
+2. `02_Analise_e_Exportacao.ipynb`: Focado na Análise de Negócio e Engenharia de Dados para BI. A partir do dataset limpo, este notebook desenvolve:
+   
+   - Análise de comportamento do cliente com o modelo RFM (Recência, Frequência, Valor Monetário).
 
-3.  **Conversão e Engenharia de Atributos:**
-    - Conversão de colunas de texto para o formato `datetime` para possibilitar cálculos temporais.
-    - Criação de novas features para enriquecer a análise, como:
-        - `tempo_entrega`: Diferença em dias entre a compra e a entrega.
-        - `diferenca_entrega_estimada`: Atraso ou adiantamento da entrega em relação à estimativa.
-        - `ano_compra`, `mes_compra`, `dia_semana_compra`: Para análise de sazonalidade.
+   - Análise logística para investigar a correlação entre o tempo de entrega e a satisfação do cliente.
 
-4.  **Unificação dos Datasets:**
-    - Realização de `merge` entre os diferentes DataFrames para consolidar todas as informações em um único DataFrame mestre (`df_master`), facilitando a análise cruzada.
-
-5.  **Análise de Negócio e RFM:**
-    - Cálculo de métricas de negócio, como receita total, sazonalidade de vendas e top 10 categorias de produtos.
-    - Implementação da **Análise RFM (Recência, Frequência, Valor Monetário)** para segmentar os clientes com base no seu comportamento de compra.
-    - Criação de scores (R, F, M) e um score RFM combinado para classificar os clientes.
+   - **Criação e exportação das tabelas Fato e Dimensão** que compõem o Modelo Star Schema.
 
 ---
+
+## 🛠️ Arquitetura do Modelo de Dados
+
+Para garantir a performance e a escalabilidade no ambiente de BI, foi implementado um Modelo Star Schema, composto pelas seguintes tabelas:
+
+`f_vendas`: Tabela central com a granularidade de cada item de pedido, contendo as chaves para as dimensões e as principais métricas de negócio.
+
+`dim_clientes`: Dimensão com atributos únicos de cada cliente, enriquecida com a segmentação RFM.
+
+`dim_produtos`: Dimensão com os atributos de cada produto, incluindo características físicas relevantes para a análise logística.
+
+`dCalendario` (a ser criada no Power BI): Dimensão de tempo para possibilitar análises de Time Intelligence.
+
+## 💡Principais Insights Descobertos
+
+A análise revelou uma forte correlação entre a experiência de entrega e a lealdade do cliente:
+
+1. **O "Vazamento no Balde":** A base de clientes da Olist é quase igualmente dividida entre clientes "saudáveis" (Campeões, Leais) e clientes "problemáticos" (Em Risco, Perdidos), indicando um alto custo de aquisição que não se converte em retenção.
+
+2. **O Impacto Fatal do Atraso:** Embora a maioria das entregas chegue adiantada, os pedidos que sofrem atraso recebem, quase que invariavelmente, as piores notas de avaliação (1 e 2).
+
+3. **A Causa da Perda de Clientes:** A inconsistência na operação logística foi validada como a causa mais provável para a alta taxa de churn, empurrando clientes para os segmentos "Em Risco" e "Perdidos" após uma única experiência ruim.
 
 ## 💻 Ferramentas Utilizadas
 
-- **Linguagem:** Python 3
+- **Linguagem:** Python
 - **Bibliotecas Principais:**
-  - `pandas`: Para manipulação e análise de dados.
-  - `matplotlib` e `seaborn`: Para visualização de dados (etapa futura).
+  - `pandas`: Para manipulação e análise de dados, `matplotlib` e `seaborn` Para visualizações.
+  - **BI:** Power BI Desktop
 
 ---
 
@@ -74,24 +64,22 @@ A análise foi dividida nas seguintes etapas:
 1.  **Clone o repositório:**
     ```bash
     git clone https://github.com/mtferreira13/projeto-olist-dataset
-    cd seu-repositorio
     ```
 
-2.  **Instale as dependências:**
-    ```bash
-    pip install pandas matplotlib seaborn jupyter
-    ```
+2. **Estrutura de Pastas:** Certifique-se de que os dados brutos da Olist estejam na pasta data/unprocessed/.
 
-3.  **Execute o notebook Jupyter:**
-    ```bash
-    jupyter notebook olist-analise.ipynb
-    ```
-    *Certifique-se de que os arquivos de dados estejam na estrutura de pastas esperada (`../data/unprocessed/`).*
+3. **Execute o ETL:** Rode o notebook `01_ETL_Olist.ipynb` para gerar os dados processados na pasta data/processed/.
 
+4. **Execute a Análise:** Rode o notebook `02_Analise_negocio_Olist.ipynb` para gerar as tabelas do modelo de dados na pasta `data/model/`.
+
+5. **Abra no Power BI:** Carregue os arquivos da pasta `data/model/` e siga os próximos passos de modelagem.
 ---
 
 ## 🔮 Próximos Passos
 
-- [ ] Criar visualizações gráficas (histogramas, gráficos de linha, mapas de calor) para ilustrar os insights encontrados.
-- [ ] Aprofundar a análise de segmentação RFM, definindo personas para cada cluster de clientes (Ex: "Clientes Campeões", "Clientes em Risco").
-- [ ] Criar um dashboard interativo com Power BI para apresentar os resultados.
+- [x] Modelagem Star Schema em Python
+
+- [ ] Criação da dCalendario em DAX no Power BI
+
+- [ ] Desenvolvimento do dashboard interativo de 3 páginas no Power BI.
+
