@@ -70,7 +70,7 @@ A análise revelou uma forte correlação entre a experiência de entrega e a le
 
 3. **Execute o ETL:** Rode o notebook `01_ETL_Olist.ipynb` para gerar os dados processados na pasta data/processed/.
 
-4. **Execute a Análise:** Rode o notebook `02_Analise_negocio_Olist.ipynb` para gerar as tabelas do modelo de dados na pasta `data/model/`.
+4. **Execute a Análise:** Rode o notebook `02_Analise_e_Exportacao.ipynb` para gerar as tabelas do modelo de dados na pasta `data/model/`.
 
 5. **Abra no Power BI:** Carregue os arquivos da pasta `data/model/` e siga os próximos passos de modelagem.
 ---
