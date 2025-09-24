@@ -75,11 +75,4 @@ A análise revelou uma forte correlação entre a experiência de entrega e a le
 5. **Abra no Power BI:** Carregue os arquivos da pasta `data/model/` e siga os próximos passos de modelagem.
 ---
 
-## 🔮 Próximos Passos
-
-- [x] Modelagem Star Schema em Python
-
-- [ ] Criação da dCalendario em DAX no Power BI
-
-- [ ] Desenvolvimento do dashboard interativo de 3 páginas no Power BI.
 
