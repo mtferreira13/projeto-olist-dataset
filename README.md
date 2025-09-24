@@ -1,6 +1,6 @@
 # Análise de Vendas e Clientes da Olist
 
-![Status](https://img.shields.io/badge/status-em%20andamento-yellow)
+![Status](https://img.shields.io/badge/status-concluído-green)
 
 ## 📖 Visão Geral do Projeto
 
