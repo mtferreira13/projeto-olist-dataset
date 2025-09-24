@@ -4,58 +4,79 @@
 
 ## 📖 Visão Geral do Projeto
 
-Este projeto apresenta uma análise de ponta a ponta do ecossistema de e-commerce da Olist, a maior loja de departamentos do Brasil. O objetivo foi além de uma análise exploratória, culminando na construção de um **Modelo de Dados Star Schema** otimizado para Business Intelligence.
+A Olist, a maior loja de departamentos do Brasil, enfrentava um desafio crítico de retenção de clientes, com um alto custo de aquisição que não se traduzia em lealdade.
 
-A análise responde a uma pergunta de negócio central: **Quais são os principais fatores que impactam a retenção de clientes e como podemos segmentá-los para ações estratégicas?**
+Este projeto realiza um **diagnóstico completo deste problema**, utilizando um pipeline de dados ponta a ponta. A análise, desenvolvida em Python, identificou que a **principal causa do churn era a inconsistência na operação logística**.
 
-O pipeline de dados foi desenvolvido inteiramente em Python, e a camada de visualização e exploração de dados será implementada no Power BI.
+O resultado final é um painel estratégico em Power BI que não só prova esta hipótese de forma visual e interativa, mas também segmenta os clientes, identifica as regiões mais críticas e fornece uma ferramenta acionável para a tomada de decisões estratégicas.
 
+## 🖼️ Visão Geral dos Painéis
+
+**Painel 1: Performance Estratégica**
+
+![Análise de Vendas](pics/painel_1.png)
+Uma visão executiva dos principais KPIs de negócio, com análise de performance mensal.
+**Painel 2: Análise de Clientes**
+
+![Análise de Clientes](pics/painel_2.png)
+Segmentação de clientes utilizando o modelo RFM para identificar comportamentos e analisar a distribuição geográfica da base de clientes.
+**Painel 3: Diagnóstico Logístico**
+
+![Análise Logística](pics/painel_3.png)
+A análise aprofundada que comprova a correlação direta entre atrasos na entrega e a queda na satisfação do cliente, identificando também as regiões mais problemáticas.
 ---
-
 ## 🗃️ Estrutura do Projeto
 
 O trabalho foi dividido em dois notebooks distintos para garantir a modularidade e as boas práticas de um projeto de dados:
 
-1. `01_ETL_Olist.ipynb`: Responsável pela Extração, Transformação e Carga. Este notebook lida com a leitura dos dados brutos, limpeza, tratamento de valores nulos e anomalias, e a consolidação de todas as fontes em um dataset analítico (df_analise)
+1. `01_ETL_Olist.ipynb`: Responsável pela **Extração, Transformação e Carga (ETL)**. Este notebook lida com a leitura de 10 datasets brutos, limpeza, tratamento de valores nulos e anomalias, e a consolidação de todas as fontes num dataset analítico limpo.
 
-2. `02_Analise_e_Exportacao.ipynb`: Focado na Análise de Negócio e Engenharia de Dados para BI. A partir do dataset limpo, este notebook desenvolve:
+2. `02_Analise_e_Exportacao.ipynb`: Focado na **Análise de Negócio e Engenharia de Dados para BI**. A partir do dataset limpo, este notebook desenvolve:
    
-   - Análise de comportamento do cliente com o modelo RFM (Recência, Frequência, Valor Monetário).
+   - Análise de comportamento do cliente com o modelo **RFM (Recência, Frequência, Valor Monetário)**.
 
    - Análise logística para investigar a correlação entre o tempo de entrega e a satisfação do cliente.
 
-   - **Criação e exportação das tabelas Fato e Dimensão** que compõem o Modelo Star Schema.
+   - Criação e exportação das tabelas Fato e Dimensão que compõem o **Modelo Star Schema** para o Power BI.
 
 ---
 
-## 🛠️ Arquitetura do Modelo de Dados
+## 🛠️ Business Intelligence (Power BI)
 
-Para garantir a performance e a escalabilidade no ambiente de BI, foi implementado um Modelo Star Schema, composto pelas seguintes tabelas:
+A camada de visualização foi construída para ser uma ferramenta de análise estratégica, com os seguintes destaques técnicos:
 
-`f_vendas`: Tabela central com a granularidade de cada item de pedido, contendo as chaves para as dimensões e as principais métricas de negócio.
+- **Modelagem:** Implementação de um Modelo de Dados Star Schema com relacionamentos otimizados para performance.
 
-`dim_clientes`: Dimensão com atributos únicos de cada cliente, enriquecida com a segmentação RFM.
+- **DAX:**
 
-`dim_produtos`: Dimensão com os atributos de cada produto, incluindo características físicas relevantes para a análise logística.
+  - Criação de uma **dimensão de calendário** `(dCalendario)` para análises de Time Intelligence.
 
-`dCalendario` (a ser criada no Power BI): Dimensão de tempo para possibilitar análises de Time Intelligence.
+  - Desenvolvimento de **medidas complexas** para KPIs de negócio, como variações MoM (Mês a Mês) e métricas de satisfação condicional.
+
+- **UI/UX:**
+
+  - Aplicação de um **layout de fundo profissional** criado no Figma para garantir uma identidade visual única e uma experiência de utilizador intuitiva.
+
+  - Uso de **formatação condicional e técnicas de storytelling** para guiar o utilizador através dos insights.
+
+- **Painéis:** O dashboard é composto por 3 páginas interativas: (1) Painel de Performance Estratégica, (2) Análise de Clientes e (3) Diagnóstico Logístico.
 
 ## 💡Principais Insights Descobertos
 
 A análise revelou uma forte correlação entre a experiência de entrega e a lealdade do cliente:
 
-1. **O "Vazamento no Balde":** A base de clientes da Olist é quase igualmente dividida entre clientes "saudáveis" (Campeões, Leais) e clientes "problemáticos" (Em Risco, Perdidos), indicando um alto custo de aquisição que não se converte em retenção.
+1. O Custo do Atraso: A análise comprovou que a **nota média de avaliação de um cliente cai de 4.15 (excelente) para 2.25 (péssimo)** quando um pedido sofre qualquer tipo de atraso.
 
-2. **O Impacto Fatal do Atraso:** Embora a maioria das entregas chegue adiantada, os pedidos que sofrem atraso recebem, quase que invariavelmente, as piores notas de avaliação (1 e 2).
+2. **O "Balde Furado":** A base de clientes da Olist está dividida quase ao meio, com **48% de clientes em segmentos problemáticos ("Em Risco" e "Perdidos")**, evidenciando uma falha grave na retenção.
 
-3. **A Causa da Perda de Clientes:** A inconsistência na operação logística foi validada como a causa mais provável para a alta taxa de churn, empurrando clientes para os segmentos "Em Risco" e "Perdidos" após uma única experiência ruim.
+3. **A Causa Raiz do Churn:** A inconsistência na operação logística foi validada como a causa mais provável para a alta taxa de churn. Uma única experiência de entrega ruim é suficiente para mover um cliente para um segmento de risco.
 
 ## 💻 Ferramentas Utilizadas
 
 - **Linguagem:** Python
-- **Bibliotecas Principais:**
-  - `pandas`: Para manipulação e análise de dados, `matplotlib` e `seaborn` Para visualizações.
-  - **BI:** Power BI Desktop
+- **Bibliotecas Principais:**`pandas` `matplotlib`, `seaborn`.
+- **BI:** Power BI Desktop
+- **Design:** Figma
 
 ---
 
@@ -66,13 +87,13 @@ A análise revelou uma forte correlação entre a experiência de entrega e a le
     git clone https://github.com/mtferreira13/projeto-olist-dataset
     ```
 
-2. **Estrutura de Pastas:** Certifique-se de que os dados brutos da Olist estejam na pasta data/unprocessed/.
+2. **Estrutura de Pastas:** Certifique-se de que os dados brutos da Olist estejam na pasta `data/unprocessed/`.
 
-3. **Execute o ETL:** Rode o notebook `01_ETL_Olist.ipynb` para gerar os dados processados na pasta data/processed/.
+3. **Execute o ETL:** Rode o notebook `01_ETL_Olist.ipynb` para gerar os dados processados na pasta `data/processed/`.
 
 4. **Execute a Análise:** Rode o notebook `02_Analise_e_Exportacao.ipynb` para gerar as tabelas do modelo de dados na pasta `data/model/`.
 
-5. **Abra no Power BI:** Carregue os arquivos da pasta `data/model/` e siga os próximos passos de modelagem.
+5. **Abra no Power BI:**  Carregue os três arquivos CSV da pasta `data/model/` para o Power BI e construa os relacionamentos do modelo.
 ---
 
 
