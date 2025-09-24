@@ -23,14 +23,21 @@ O resultado final é um painel estratégico em Power BI que não só prova esta 
 
 ![Análise de Vendas](pics/painel_1.png)
 Uma visão executiva dos principais KPIs de negócio, com análise de performance mensal.
+
+
 **Painel 2: Análise de Clientes**
 
 ![Análise de Clientes](pics/painel_2.png)
 Segmentação de clientes utilizando o modelo RFM para identificar comportamentos e analisar a distribuição geográfica da base de clientes.
+
+
 **Painel 3: Diagnóstico Logístico**
 
 ![Análise Logística](pics/painel_3.png)
+
 A análise aprofundada que comprova a correlação direta entre atrasos na entrega e a queda na satisfação do cliente, identificando também as regiões mais problemáticas.
+
+
 ---
 ## 🗃️ Estrutura do Projeto
 
