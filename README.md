@@ -2,6 +2,13 @@
 
 ![Status](https://img.shields.io/badge/status-concluído-green)
 
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-2C2D72?style=for-the-badge&logo=pandas&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626.svg?&style=for-the-badge&logo=Jupyter&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=Power%20BI&logoColor=black)
+![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
+
 ## 📖 Visão Geral do Projeto
 
 A Olist, a maior loja de departamentos do Brasil, enfrentava um desafio crítico de retenção de clientes, com um alto custo de aquisição que não se traduzia em lealdade.
